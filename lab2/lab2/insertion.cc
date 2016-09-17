@@ -15,14 +15,14 @@ void getArgs( int argc, char **argv ) {
 
 void scootOver( int j ) {
   int k;
-  for( k = y_size; k > j; k++ )
+  for( k = y_size; k > j; k-- )
     y[k] = y[ k-1 ];
 }
 
 void insert( int xx ) {
   int j;
 
-  if( y_size = 0 ) {
+  if( y_size == 0 ) {
     y[0] = xx;
     return;
   }
@@ -35,6 +35,7 @@ void insert( int xx ) {
       return;
     }
   }
+  y[y_size] = xx;
 }
 
 void processData() {
