@@ -1,0 +1,7 @@
+g++ -Wall -c -std=c++11 CDate.cc -o CDate.o
+g++ -Wall -std=c++11 dates.cc CDate.o -o dates
+g++ -std=c++11 -Wall -c lists.cc -o lists.o
+g++ -Wall -c  linked_list.cc -o linked_list.o
+g++ -Wall lists.o linked_list.o -o lists 
+echo "all compiled"
+all compiled
