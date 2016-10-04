@@ -3,6 +3,13 @@
 
 using namespace std;
 
+void remove(int* heap, int key, int & size);
+void remove(int* heap, int key, int & size, int node);
+int* mergeHeap(int* heap1, int* heap2, int size1, int size2);
+void insert(int* heap, int end, int key);
+void swapUp(int* heap, int node);
+
+
 //PRE:  The capacity of the array pointed to by heap is at least size.
 //POST: The first size elements of heap are printed to the screen.
 
@@ -65,8 +72,8 @@ void printHeapQ1(int* heap, int size, int node = 0, int d = 0) {
             cout << "*";
         }
         cout << heap[node] << "\n";
-        int child1 = (node << 1) + 1;
-        int child2 = (node << 1) + 2;
+        int child1 = (node * 2) + 1;
+        int child2 = (node * 2) + 2;
         printHeapQ1(heap, size, child1, d + 1);
         printHeapQ1(heap, size, child2, d + 1);
     }
@@ -81,8 +88,8 @@ void printHeapQ2(int* heap, int size, int node = 0, int d = 0) {
     if (node >= size) {
         return;
     } else {
-        int child1 = (node << 1) + 2;
-        int child2 = (node << 1) + 1;
+        int child1 = (node * 2) + 2;
+        int child2 = (node * 2) + 1;
         printHeapQ2(heap, size, child1, d + 1);
         for (int i = 0; i < d; i++) {
             cout << "\t";
@@ -108,19 +115,52 @@ void printHeap(int* heap, int size, int node = 0, int d = 0) {
 //      key is the value to be removed from the heap
 //      size is the number of elements in the heap
 //POST: all elements with key value = key have been removed from
-//	the heap and size is the new heap size.
+//  the heap and size is the new heap size.
 
-void remove(int* heap, int key, int& size) {
-    // TODO: put your code for Question 3 here
+void remove(int* heap, int key, int & size) {
+    remove(heap, key, size, 0);
+}
+
+void remove(int* heap, int key, int & size, int node) {
+    if (node >= size || heap[node] > key) {
+        return;
+    }
+    while (size && heap[node] == key) {
+        heap[node] = heap[size - 1];
+        size -= 1;
+        swapDown(heap, node, size);
+    }
+    remove(heap, key, size, (node * 2) + 1);
+    remove(heap, key, size, (node * 2) + 2);
 }
 
 //PRE:  heap1 and heap2 contain size1 and size2 elements respectively.
 //POST: output a new heap (whose size is size1+size2) containing all
-//      the elements in heap1 and heap2 (including duplicates).
+//  the elements in heap1 and heap2 (including duplicates).
 
 int* mergeHeap(int* heap1, int* heap2, int size1, int size2) {
-    // TODO: replace the following line with your code for Question 4
-    return NULL;
+    int* mergedHeap = new int[size1 + size2];
+    for (int i = 0; i < size1; ++i) {
+        insert(mergedHeap, i, heap1[i]);
+    }
+    for (int i = 0; i < size2; ++i) {
+        insert(mergedHeap, size1 + i, heap2[i]);
+    }
+    return mergedHeap;
+}
+
+void insert(int* heap, int end, int key) {
+    heap[end] = key;
+    swapUp(heap, end);
+}
+
+void swapUp(int* heap, int node) {
+    if (node <= 0) {
+        return;
+    } else if (heap[node] < heap[(node - 1) / 2]) {
+        swap(heap[node], heap[(node - 1) / 2]);
+        swapUp(heap, (node - 1) / 2);
+    }
 }
 
 int input1[] = {8, 3, 5, 6, 2, 9, 1, 7, 4, 0};
@@ -200,7 +240,6 @@ int main() {
 
     delete[] heap1;
     delete[] heap2;
-    delete[] heap3;
 
     return 0;
 }
