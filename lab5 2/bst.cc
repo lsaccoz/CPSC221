@@ -4,6 +4,7 @@
 #include <iomanip>	// provides std::setw()
 #include <cstdio>	// provides sprintf()
 #include "unit.h"
+#include <math.h>
 
 typedef unsigned int uint;
 
@@ -158,33 +159,26 @@ void printTree( Node * r, int d = 0 ) {
 /**
  * Returns the number of nodes in the tree rooted at root.
  */
-int numNodes( Node* root ) {
-  /**
-   * THIS FUNCTION NEEDS TO BE IMPLEMENTED ********************
-   */
-  return 0; // comment out this line
-
+int numNodes( Node* root) {
+    return (root == NULL) ? 0 : 
+        numNodes(root->left) + numNodes(root->right) + 1;
 }
 
 /**
  * Returns the number of leaves in the tree rooted at root.
  */
 int numLeaves( Node* root ) {
-  /**
-   * THIS FUNCTION NEEDS TO BE IMPLEMENTED ********************
-   */
-  return 0; // comment out this line
-
+  return (root == NULL) ? 0 : 
+        (root->left == NULL && root->right == NULL) ? 1 :
+        numLeaves(root->left) + numLeaves(root->right); 
 }
 
 /**
  * Returns the height of node x.
  */
 int height( Node* x ) {
-  /**
-   * THIS FUNCTION NEEDS TO BE IMPLEMENTED ********************
-   */
-  return 0; // comment out this line
+  
+  return log2(numNodes(x)); // comment out this line
 
 }
 
@@ -192,9 +186,7 @@ int height( Node* x ) {
  * Returns the depth of node x in the tree rooted at root.
  */
 int depth( Node* root, Node* x ) {
-  /**
-   * THIS FUNCTION NEEDS TO BE IMPLEMENTED ********************
-   */
+  
   return 0; // comment out this line
 
 }
