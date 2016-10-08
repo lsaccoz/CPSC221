@@ -1,0 +1,2 @@
+g++ -Wall -g -c unit.cc -o unit.o 
+g++ -Wall -g -std=c++11 bst.cc unit.o -o bst
