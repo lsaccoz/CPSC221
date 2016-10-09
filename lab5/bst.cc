@@ -5,6 +5,7 @@
 #include <cstdio> // provides sprintf()
 #include "unit.h"
 #include <math.h>
+#include <algorithm> 
 
 typedef unsigned int uint;
 
@@ -79,6 +80,12 @@ Node* find_parent(Node* r, Node* node) {
     }
 }
 
+Node*& find_predecessor(Node *& n) {
+    if (!(n->right))
+        return n;
+    return find_predecessor(n->right);
+}
+
 /**
  * Deletes a node containing 'key' in the tree rooted at 'root'.
  */
@@ -100,7 +107,7 @@ bool delete_node(Node*& root, int key) {
                 parent->right = target->right;
         } else
             root = target->right;
-    }        // case 2: target has only left child
+    }// case 2: target has only left child
     else if (target->right == NULL) {
         // set parent's child pointer
         if (parent != NULL) {
@@ -110,7 +117,7 @@ bool delete_node(Node*& root, int key) {
                 parent->right = target->left;
         } else
             root = target->left;
-    }        // case 3: target has two children
+    }// case 3: target has two children
     else {
         /**
          * THIS SECTION NEEDS TO BE IMPLEMENTED ********************
@@ -120,7 +127,18 @@ bool delete_node(Node*& root, int key) {
          * its predecessor or its successor. To make the lab more easy to test,
          * PLEASE USE THE PREDECESSOR.)
          */
-        return false; // comment out this line
+        Node* predecessor = find_predecessor(target);
+        Node* parent_of_predecessor = find_parent(target, predecessor);
+
+        target->key = predecessor->key;
+
+        if (parent_of_predecessor->left == predecessor)
+            parent_of_predecessor->left = predecessor->left;
+        else
+            parent_of_predecessor->right = predecessor->left;
+        
+        delete predecessor;
+        return true; 
     }
 
     // free target
@@ -175,7 +193,10 @@ int numLeaves(Node* root) {
  * Returns the height of node x.
  */
 int height(Node* x) {
-    return log2(numNodes(x)); // comment out this line 
+    if (x == NULL)
+        return -1;
+
+    return 1 + std::max(height(x->left), height(x->right));
 }
 
 /**
@@ -193,6 +214,7 @@ int depth(Node* root, Node* x) {
 void in_order(Node* rootNode, int level, Visitor& v) {
     if (rootNode == NULL)
         return;
+
     in_order(rootNode->left, level + 1, v);
     v.visit(rootNode, level);
     in_order(rootNode->right, level + 1, v);
@@ -204,6 +226,7 @@ void in_order(Node* rootNode, int level, Visitor& v) {
 void pre_order(Node* rootNode, int level, Visitor& v) {
     if (rootNode == NULL)
         return;
+
     v.visit(rootNode, level);
     pre_order(rootNode->left, level + 1, v);
     pre_order(rootNode->right, level + 1, v);
