@@ -80,12 +80,6 @@ Node* find_parent(Node* r, Node* node) {
     }
 }
 
-Node*& find_predecessor(Node *& n) {
-    if (!(n->right))
-        return n;
-    return find_predecessor(n->right);
-}
-
 /**
  * Deletes a node containing 'key' in the tree rooted at 'root'.
  */
@@ -127,18 +121,15 @@ bool delete_node(Node*& root, int key) {
          * its predecessor or its successor. To make the lab more easy to test,
          * PLEASE USE THE PREDECESSOR.)
          */
-        Node* predecessor = find_predecessor(target);
-        Node* parent_of_predecessor = find_parent(target, predecessor);
+        Node* curr = target;
+        curr = curr->left;
+        while (curr->right != NULL) {
+            curr = curr->right;
+        }
+        target->key = curr->key;
+        delete_node(target->left, curr->key);
 
-        target->key = predecessor->key;
-
-        if (parent_of_predecessor->left == predecessor)
-            parent_of_predecessor->left = predecessor->left;
-        else
-            parent_of_predecessor->right = predecessor->left;
-        
-        delete predecessor;
-        return true; 
+        return true;
     }
 
     // free target
@@ -203,9 +194,8 @@ int height(Node* x) {
  * Returns the depth of node x in the tree rooted at root.
  */
 int depth(Node* root, Node* x) {
-
-    return 0; // comment out this line
-
+    
+    return 0;
 }
 
 /**
