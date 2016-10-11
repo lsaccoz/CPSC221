@@ -184,10 +184,8 @@ int numLeaves(Node* root) {
  * Returns the height of node x.
  */
 int height(Node* x) {
-    if (x == NULL)
-        return -1;
-
-    return 1 + std::max(height(x->left), height(x->right));
+    return (x == NULL) ? -1 : 
+        1 + std::max(height(x->left), height(x->right));
 }
 
 /**
