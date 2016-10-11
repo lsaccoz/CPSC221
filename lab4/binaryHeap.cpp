@@ -127,7 +127,7 @@ void remove(int* heap, int key, int & size, int node) {
     }
     while (size && heap[node] == key) {
         heap[node] = heap[size - 1];
-        size -= 1;
+        size--;
         swapDown(heap, node, size);
     }
     remove(heap, key, size, (node * 2) + 1);
