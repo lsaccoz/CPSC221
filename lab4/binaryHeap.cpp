@@ -138,6 +138,7 @@ void remove(int* heap, int key, int & size, int node) {
 //POST: output a new heap (whose size is size1+size2) containing all
 //  the elements in heap1 and heap2 (including duplicates).
 
+//Merge is Theta(nlg(n))
 int* mergeHeap(int* heap1, int* heap2, int size1, int size2) {
     int* mergedHeap = new int[size1 + size2];
     for (int i = 0; i < size1; ++i) {
@@ -154,6 +155,7 @@ void insert(int* heap, int end, int key) {
     swapUp(heap, end);
 }
 
+//swapUp is Theta(lg(n))
 void swapUp(int* heap, int node) {
     if (node <= 0) {
         return;
