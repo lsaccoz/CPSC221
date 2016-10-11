@@ -117,6 +117,7 @@ void printHeap(int* heap, int size, int node = 0, int d = 0) {
 //POST: all elements with key value = key have been removed from
 //  the heap and size is the new heap size.
 
+//this O(nlg(n))
 void remove(int* heap, int key, int & size) {
     remove(heap, key, size, 0);
 }
@@ -127,7 +128,7 @@ void remove(int* heap, int key, int & size, int node) {
     }
     while (size && heap[node] == key) {
         heap[node] = heap[size - 1];
-        size--;
+        size--; 
         swapDown(heap, node, size);
     }
     remove(heap, key, size, (node * 2) + 1);
