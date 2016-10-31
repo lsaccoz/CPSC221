@@ -167,6 +167,9 @@ void printTree(Node * r, int d = 0) {
  * Returns the number of nodes in the tree rooted at root.
  */
 int numNodes(Node* root) {
+    //If the root is null, return from the recursion. Otherwise,
+    //move on level deeper to both children of the two children, adding 1 to
+    //the total number of nodes
     return (root == NULL) ? 0 :
             (numNodes(root->left) + numNodes(root->right) + 1);
 }
@@ -175,6 +178,11 @@ int numNodes(Node* root) {
  * Returns the number of leaves in the tree rooted at root.
  */
 int numLeaves(Node* root) {
+    //If the current node is null, return from the recursive calls.
+    //Otherwise, if root has no children, return 1, thereby adding 1 to
+    //the total number of leaves in the tree. 
+    //Otherwise, this means that root has at least 1 child, so continue down one
+    //level in the tree to look for leaves
     return (root == NULL) ? 0 :
             (root->left == NULL && root->right == NULL) ? 1 :
             (numLeaves(root->left) + numLeaves(root->right));
@@ -184,6 +192,9 @@ int numLeaves(Node* root) {
  * Returns the height of node x.
  */
 int height(Node* x) {
+    //If the node is null, return -1.
+    //Otherwise, add 1 to the total height, and add it to the greater height of
+    //the left branch and the right branch.
     return (x == NULL) ? -1 : 
         1 + std::max(height(x->left), height(x->right));
 }
@@ -192,6 +203,11 @@ int height(Node* x) {
  * Returns the depth of node x in the tree rooted at root.
  */
 int depth(Node* root, Node* x) {
+    //If the node in question is null, or the root is null, return 0 out of the 
+    //recursion.
+    //If x is the root of the node, it's depth is 0.
+    //If the node's value if less than the root, add 1 to the depth and search
+    //the left tree, otherwise add 1 and search the left tree.
     return (!x || !root) ? 0 :
             (x == root) ? 0 :
             (x->key < root->key) ? 1 + depth(root->left, x) :
