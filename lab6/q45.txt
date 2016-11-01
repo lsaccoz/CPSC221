@@ -1,0 +1,24 @@
+4. Recurrence Relation for c(n)
+
+           {   0                                   ,  n <= 1
+          /   
+C(n)  =  <     ( n                         )
+          \    (sum [n-1 + C(m-1) + C(n-m)]) / n   ,  n > 1
+           {   (m=1                        )
+
+
+
+5. The average running time is O(n log n).
+   The worst case running time is O(n^2).
+     - It is unlikely to see the worst case running time
+       because of the random partition choice. The algorithm
+       will have a number of comparisons that is related
+       to the pivot point choice. If you chose the pivot to ALWAYS be
+       the last element of the array, then it would sort
+       a list of size n = n, n-1, n-2, ... , 1, which in in itself
+       must do n comparisons, so a running time of n^2 is observed.
+       Another thing that could slow down the running time is if the
+       pivot's data happpens to be one of the largest or smallest elements.
+
+   Our implementation of quicksort is in-place because the entirety
+   of the sorting algorithm takes place within the array itself.
