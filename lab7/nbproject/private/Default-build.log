@@ -1,0 +1,2 @@
+g++ -Wall -g -c Hashtable.cc -o Hashtable.o 
+g++ -Wall -g driver.cc Hashtable.o -o hash
