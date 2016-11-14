@@ -1,4 +1,0 @@
-g++ -Wall -g huftree.cpp -o huff
-clang: error: no such file or directory: 'huftree.cpp'
-clang: error: no input files
-make: *** [hufTree] Error 1
