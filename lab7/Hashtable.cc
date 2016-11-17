@@ -10,7 +10,7 @@ Hashtable::Hashtable(int size) {
 	int prime = nextPrime( size ); 
 	_size = size;
 	if (prime != size) { 
-	  cout << "Warning: size = " << size << " is not a prime number." << endl; 
+	  cout << "\tWarning: size = " << size << " is not a prime number." << endl; 
 /* uncomment these if you want */ 
 //	  cout << "Using " << prime << " instead." << endl; 
 //	  _size = prime; 
@@ -45,19 +45,25 @@ void Hashtable::tallyProbes(int p) {
 }
 
 void Hashtable::printStats() {
-	cout << "Average probes/insert = " <<
+	cout << "\tAverage probes/insert = " <<
 			probeRate() << " = " <<
-			_totalProbes << "/" << _numInserts;
-	cout <<", size = "<< _size;
-	cout <<", failures = " << _numFailures << endl;
+			_totalProbes << "/" << _numInserts << endl;
+	cout <<"\tSize = "<< _size << endl;
+	cout <<"\tFailures = " << _numFailures << endl << endl;
 }
 
 float Hashtable::probeRate() {
 	return (float)_totalProbes / (float)_numInserts;
 }
 
+//First hashing function
 int Hashtable::hash(int k) {
 	return k % _size;
+}
+
+//Second hashing function
+int Hashtable::hashAlt(int k) {
+	return ((_size >> 3) + 3) - (k % ((_size >> 3) + 3));
 }
 
 void Hashtable::qinsert(int k) {
@@ -73,27 +79,20 @@ void Hashtable::qinsert(int k) {
 	// - You're also welcome to modify the main() method to automate your testing.
 
     // ************* ADD YOUR CODE HERE *******************
-    int h = hash(k);
-    int l = h;
-
-    for (int i = 1; i < _size; i++) {   // iterate size times before failing
-
-        if (*(_table + l) == -1) {      // if empty, store at this key
-
-            *(_table + l) = k;
-            tallyProbes(i);
-            return;
-
-        } else {                        // if occupied, calculate the next key
-            l = h + (i * i) % _size;
-        }
-    }
-    
-    
-    // Your method should return after it stores the value in an EMPTY slot 
-    // and calls tallyProbes, so if it gets here, it didn't find an EMPTY slot 
-    _numFailures += 1; 
-    cout << "Warning: qinsert(" << k << ") found no EMPTY slot, so no insert was done." << endl; 
+	
+	int probe = hash(k);
+	int i = 1;
+	while(this->_table[probe] != EMPTY && this->_table[probe] != k){
+		if(i > this->_size){ //Try as many times as there are spaces in the array, hopefully we find one
+			_numFailures += 1; 
+			//cout << "\tFAIL: qinsert(" << k << ") Pigeon couldn't find empty hole :(" << endl; 
+                        return;
+		}
+		probe = (probe + 2*i - 1) % this->_size;
+		i++;
+	}
+	this->tallyProbes(i);
+	this->_table[probe] = k;
 }
 
 void Hashtable::linsert(int k) {
@@ -102,12 +101,19 @@ void Hashtable::linsert(int k) {
 
     // ************* ADD YOUR CODE HERE *******************
     
-    
-    
-    // Your method should return after it stores the value in an EMPTY slot 
-    // and calls tallyProbes, so if it gets here, it didn't find an EMPTY slot 
-    _numFailures += 1; 
-    cout << "Warning: linsert(" << k << ") found no EMPTY slot, so no insert was done." << endl; 
+	int probe = hash(k);
+	int i = 1;
+	while(this->_table[probe] != EMPTY && this->_table[probe] != k){
+		if(i > this->_size){ //Try as many times as there are spaces in the array, hopefully we find one
+			_numFailures += 1; 
+			//cout << "\tFAIL: linsert(" << k << ") Pigeon couldn't find empty hole :(" << endl; 
+                        return;
+		}
+		probe = (probe + 1) % this->_size;
+		i++;
+	}
+	this->tallyProbes(i);
+	this->_table[probe] = k;
 }
 
 void Hashtable::dinsert(int k) {
@@ -116,13 +122,21 @@ void Hashtable::dinsert(int k) {
 	// and also implement a second hash function.
 
     // ************* ADD YOUR CODE HERE *******************
-    
-    
-    
-    // Your method should return after it stores the value in an EMPTY slot 
-    // and calls tallyProbes, so if it gets here, it didn't find an EMPTY slot 
-    _numFailures += 1; 
-    cout << "Warning: dinsert(" << k << ") found no EMPTY slot, so no insert was done." << endl; 
+
+	int probe = hash(k);
+	int probeAlt = hashAlt(k);
+	int i = 1;
+	while(this->_table[probe] != EMPTY && this->_table[probe] != k){
+		if(i > this->_size){ //Try as many times as there are spaces in the array, hopefully we find one
+			_numFailures += 1; 
+			//cout << "\tFAIL: dinsert(" << k << ") Pigeon couldn't find empty hole :(" << endl; 
+                        return;
+		}
+		probe = (probe + probeAlt) % this->_size;
+		i++;
+	}
+	this->tallyProbes(i);
+	this->_table[probe] = k;    
 }
 
 void Hashtable::print() {
@@ -160,4 +174,3 @@ bool Hashtable::isPrime( int n, int divisor ){
     if ((n % divisor) == 0) return false; 
     return isPrime( n, divisor + 2 ); 
 }
-

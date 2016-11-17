@@ -8,6 +8,7 @@ public:
 	Hashtable(int size);
 	~Hashtable();
 	int hash(int key);
+        int hashAlt(int key);
 	void qinsert(int key);
 	void linsert(int key);
 	void dinsert(int key);
