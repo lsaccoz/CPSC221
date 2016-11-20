@@ -1,0 +1,2 @@
+g++ -Wall -g -c Unit.cc -o Unit.o 
+g++ -Wall -g avl.cc Unit.o -o avl
