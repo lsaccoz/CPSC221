@@ -1,0 +1,7 @@
+mtf,mys03
+sl,mys06
+hch,mys01
+hqp,mys04
+bstT,mys02
+avl,mys07
+spt,mys05
