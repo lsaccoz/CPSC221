@@ -1,6 +1,6 @@
 /**
  * [So make a test filled with random elements.
- * Then take out biggest elements in descending order.]
+ * but  then takes out something thats not in it.
 */
 
 #include<iostream>
@@ -61,18 +61,19 @@ int main(int argc, char* argv[])
     // this for loop Finds random elements. In sorted rezisable
     // array this should take lg n time cause binary search.
     // -*- doing it in cool different order just in case -*-
-    int index = size/2-1; bool alt = true;
-    for (i = 1; index >= 0 && index < size; i++)
-    {
-        cout << "F " << inputs[index] << endl;
-        index += alt ? i : -i;
-        alt = !alt;
-    }
+    //int index = size/2-1; bool alt = true;
+    //for (i = 1; index >= 0 && index < size; i++)
+    //{
+    //    cout << "F " << inputs[index] << endl;
+    //    index += alt ? i : -i;
+    //    alt = !alt;
+    //}
 
-    sortlist(inputs);
-    for (i = size-1; i >= 0; i--)
+    //sortlist(inputs);
+    int notAnInput = MAX_VAL + 2;
+    for (i = 0; i < 2*size; i++)
     {
-        cout << "R " << inputs[i] << endl;
+        cout << "F " << notAnInput << endl;
     }
 
 }
